@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Drawing Area</title>
+<!-- You can add your style here rather than in an external style sheet. -->
+<style>
+	canvas {
+	    border:5px solid #d3d3d3;
+	    background-color: #f1f1f1;
+	    display: block;
+	}
+</style>
+</head>
+<body>
+    <!-- DO NOT MODIFY THIS HTML -->
+    <canvas id = "myCanvas" width = "350" height = "500"  ></canvas>
+    <input type = "color" id = "picker"/>
+</body>
+<script type="text/javascript">
+    var mycanvas = document.querySelector("#myCanvas");
+    var ctx = mycanvas.getContext("2d");
+    mycanvas.width = 0.8 * document.documentElement.clientWidth;
+    mycanvas.height = 0.8 * document.documentElement.clientHeight;
+    //console.log(mycanvas.width);
+
+    var paintingMode = true; 
+
+	mycanvas.addEventListener(
+		"mousemove",function(e){
+            //console.log(e);
+            draw(e.offsetX, e.offsetY, paintingMode);
+		});
+
+	document.addEventListener(
+		"keypress",changeColor);
+
+	document.addEventListener(
+		"keydown",penManipulation);
+
+	var colorPicker = document.querySelector("#picker");
+	colorPicker.addEventListener(
+		"input",function(e){
+			ctx.fillStyle = this.value;
+		});
+
+
+
+
+    function draw(x, y,mode) {
+    	if(mode){
+			ctx.beginPath();
+		    ctx.arc(x, y, 10, 0, 2 * Math.PI);
+		    ctx.fill();
+    	}
+    }
+    function changeColor(e){
+    	console.log(e.code);
+    	if (e.code == 'KeyB'){
+    		ctx.fillStyle = 'blue';
+    	}
+    	else if (e.code == 'KeyR'){
+    		ctx.fillStyle = 'red';
+    	}
+    	else if (e.code == 'KeyG'){
+    		ctx.fillStyle = 'green';
+    	}
+    	else if (e.code == "KeyY"){
+    		ctx.fillStyle = 'yellow';
+    	}
+    	else if (e.code == "Space"){
+    		ctx.clearRect(0, 0, mycanvas.width, mycanvas.height);
+    	}
+    }
+
+    function penManipulation(e){
+    	console.log(e.code);
+    	if(e.code == 'ArrowUp'){
+    		paintingMode = false;
+    	}
+    	else if(e.code == 'ArrowDown'){
+    		paintingMode = true;
+    	}
+    }
+
+
+</script>
+</html>
